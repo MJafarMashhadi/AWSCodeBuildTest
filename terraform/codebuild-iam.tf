@@ -21,8 +21,9 @@ data "aws_iam_policy_document" "code_build_assume_role_policy" {
 data "aws_iam_policy_document" "code_build_role_policy" {
   statement {
     actions   = ["ecr:*"]
-    // TODO: define ECR in terraform and use its arn as a reference
-    resources = ["arn:aws:ecr:${var.region}:469736494277:repository/code-build-dumpster"]
+    resources = [
+      aws_ecr_repository.dumpster_repo.arn,
+    ]
   }
 }
 
