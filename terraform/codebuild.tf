@@ -28,3 +28,8 @@ resource "aws_codebuild_project" "code_build" {
     }
   }
 }
+
+resource "aws_codebuild_webhook" "trigger_by_github" {
+  project_name  = aws_codebuild_project.code_build.name
+  branch_filter = "master"
+}
