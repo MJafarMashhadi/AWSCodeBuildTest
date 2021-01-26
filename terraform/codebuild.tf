@@ -1,8 +1,9 @@
 resource "aws_codebuild_project" "code_build" {
-  name          = "dumpster-project-build"
-  badge_enabled = true
-  build_timeout = 5
-  service_role  = aws_iam_role.code_build_role.arn
+  name           = "dumpster-project-build"
+  badge_enabled  = true
+  build_timeout  = 5
+  service_role   = aws_iam_role.code_build_role.arn
+  source_version = "master"
 
   artifacts {
     type = "NO_ARTIFACTS"
@@ -16,11 +17,11 @@ resource "aws_codebuild_project" "code_build" {
     type                        = "LINUX_CONTAINER"
   }
   source {
+    type                = "GITHUB"
+    location            = "https://github.com/MJafarMashhadi/AWSCodeBuildTest.git"
     git_clone_depth     = 1
     insecure_ssl        = false
-    location            = "https://github.com/MJafarMashhadi/AWSCodeBuildTest"
     report_build_status = false
-    type                = "GITHUB"
 
     git_submodules_config {
       fetch_submodules = false
