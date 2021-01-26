@@ -21,9 +21,18 @@ data "aws_iam_policy_document" "code_build_assume_role_policy" {
 data "aws_iam_policy_document" "code_build_role_policy" {
   statement {
     actions = ["ecr:*"]
+    effect  = "Allow"
     resources = [
       aws_ecr_repository.dumpster_repo.arn,
     ]
+  }
+  statement {
+    actions = [
+      "logs:CreateLogStream",
+      "logs:CreateLogGroup",
+    ]
+    effect    = "Allow"
+    resources = ["*"]
   }
 }
 
