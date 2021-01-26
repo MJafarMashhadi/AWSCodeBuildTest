@@ -1,0 +1,15 @@
+version: '0.2'
+phases:
+  pre_build:
+    commands:
+      - aws --version
+      - REGISTERY_URI=469736494277.dkr.ecr.eu-west-1.amazonaws.com
+      - REPOSITORY_URI=$REGISTERY_URI/code-build-dumpster
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $REGISTERY_URI
+  build:
+    commands:
+      - docker build -t $REPOSITORY_URI:latest .
+  post_build:
+    commands:
+      - echo Build completed, $(date)
+      - docker push $REPOSITORY_URI:latest
