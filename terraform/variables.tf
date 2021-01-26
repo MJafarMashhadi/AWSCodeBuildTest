@@ -3,5 +3,6 @@ variable "region" {
 }
 
 variable "stage" {
-  type = string
+  type    = string
+  default = "staging"
 }
