@@ -5,7 +5,9 @@ phases:
       - aws --version
       - REGISTERY_URI=469736494277.dkr.ecr.us-east-1.amazonaws.com
       - REPOSITORY_URI=$REGISTERY_URI/code-build-dumpster
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $REGISTERY_URI
+      - PWRD=$(aws ecr get-login-password --region us-east-1)
+      - echo $PWRD | docker login --username AWS --password-stdin $REGISTERY_URI
+      - unset $PWRD
   build:
     commands:
       - docker build -t $REPOSITORY_URI:latest .
