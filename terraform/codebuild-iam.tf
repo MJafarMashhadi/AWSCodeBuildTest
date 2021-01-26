@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "code_build_assume_role_policy" {
 ## What will they get from assuming it?
 data "aws_iam_policy_document" "code_build_role_policy" {
   statement {
-    actions   = ["ecr:*"]
+    actions = ["ecr:*"]
     resources = [
       aws_ecr_repository.dumpster_repo.arn,
     ]
@@ -38,5 +38,5 @@ resource "aws_iam_role" "code_build_role" {
 resource "aws_iam_policy_attachment" "code_build_role_policy_attachment" {
   name       = "code-build-role-policy-attachment-${var.stage}"
   policy_arn = aws_iam_policy.code_build_role_policy.arn
-  roles = [aws_iam_role.code_build_role.id]
+  roles      = [aws_iam_role.code_build_role.id]
 }
