@@ -27,6 +27,11 @@ data "aws_iam_policy_document" "code_build_role_policy" {
     ]
   }
   statement {
+    actions = ["ecr:GetAuthorizationToken"]
+    effect = "Allow"
+    resources = ["*"]
+  }
+  statement {
     actions = [
       "logs:CreateLogStream",
       "logs:CreateLogGroup",
