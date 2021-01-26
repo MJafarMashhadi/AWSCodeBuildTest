@@ -12,7 +12,7 @@ resource "aws_codebuild_project" "code_build" {
     compute_type                = "BUILD_GENERAL1_SMALL"
     image                       = "aws/codebuild/amazonlinux2-x86_64-standard:3.0"
     image_pull_credentials_type = "CODEBUILD"
-    privileged_mode             = false
+    privileged_mode             = true
     type                        = "LINUX_CONTAINER"
   }
   source {
