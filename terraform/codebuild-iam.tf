@@ -30,6 +30,7 @@ data "aws_iam_policy_document" "code_build_role_policy" {
     actions = [
       "logs:CreateLogStream",
       "logs:CreateLogGroup",
+      "logs:PutLogEvents",
     ]
     effect    = "Allow"
     resources = ["*"]
