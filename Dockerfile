@@ -6,8 +6,11 @@ RUN chmod +x /install_requirements
 COPY requirements /requirements
 RUN /install_requirements production
 
+COPY ci/run_server.sh /run_server
+RUN chmod +x /run_server
+
 WORKDIR /app
 COPY src .
 
-ENTRYPOINT [ "python" ]
-CMD [ "/app/start.py" ]
+ENTRYPOINT [ "bash", "-c" ]
+CMD [ "/run_server" ]
