@@ -1,0 +1,6 @@
+version: "3.8"
+services:
+  dumpster:
+    image: 469736494277.dkr.ecr.us-east-1.amazonaws.com/code-build-dumpster:latest
+    expose: [ "5000" ]
+    ports: [ "80:5000" ]
