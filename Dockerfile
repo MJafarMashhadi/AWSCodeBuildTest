@@ -1,10 +1,7 @@
 FROM public.ecr.aws/bitnami/python:3.8
 
-COPY ci/install_requirements.sh /install_requirements
-RUN chmod +x /install_requirements
-
 COPY requirements /requirements
-RUN /install_requirements production
+RUN python -m pip install --no-cache -r /requirements/production.txt
 
 COPY ci/run_server.sh /run_server
 RUN chmod +x /run_server
