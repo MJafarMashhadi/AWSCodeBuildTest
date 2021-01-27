@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "code_build_assume_role_policy" {
 ## What will they get from assuming it?
 data "aws_iam_policy_document" "code_build_role_policy" {
   statement {
-    sid = "AllowInteractionWithECR"
+    sid     = "AllowInteractionWithECR"
     actions = ["ecr:*"]
     effect  = "Allow"
     resources = [
@@ -29,7 +29,7 @@ data "aws_iam_policy_document" "code_build_role_policy" {
   }
   statement {
     sid = "AllowAuthenticationToECR"
-    actions   = [
+    actions = [
       "ecr:GetAuthorizationToken"
     ]
     effect    = "Allow"
@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "code_build_role_policy" {
   }
   statement {
     sid = "AllowAuthenticationToPublicECRGallery"
-    actions   = [
+    actions = [
       "ecr-public:GetAuthorizationToken",
       "sts:GetServiceBearerToken"
     ]
