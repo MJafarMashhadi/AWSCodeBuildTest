@@ -88,12 +88,12 @@ resource "aws_iam_role" "beanstalk_service_role" {
   path               = "/service-role/" # TODO: change to / if any problems arise
 }
 resource "aws_iam_policy_attachment" "beanstalk_enhanced_health_policy_attachment" {
-  name       = "beanstalk_enhanced_health_policy_attachment-${var.stage}"
+  name       = "beanstalk-enhanced-health-policy-attachment-${var.stage}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkEnhancedHealth"
-  roles      = [aws_iam_role.beanstalk_service_role.arn]
+  roles      = [aws_iam_role.beanstalk_service_role.id]
 }
 resource "aws_iam_policy_attachment" "beanstalk_beanstalk_service_policy_attachment" {
-  name       = "beanstalk_beanstalk_service_policy_attachment-${var.stage}"
+  name       = "beanstalk-beanstalk-service-policy-attachment-${var.stage}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkService"
-  roles      = [aws_iam_role.beanstalk_service_role.arn]
+  roles      = [aws_iam_role.beanstalk_service_role.id]
 }
