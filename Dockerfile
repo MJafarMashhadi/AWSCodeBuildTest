@@ -1,4 +1,4 @@
-FROM bitnami/python:3.8
+FROM public.ecr.aws/bitnami/python:3.8
 
 COPY ci/install_requirements.sh /install_requirements
 RUN chmod +x /install_requirements
