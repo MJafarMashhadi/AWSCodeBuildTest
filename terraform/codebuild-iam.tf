@@ -27,7 +27,10 @@ data "aws_iam_policy_document" "code_build_role_policy" {
     ]
   }
   statement {
-    actions   = ["ecr:GetAuthorizationToken"]
+    actions   = [
+      "ecr:GetAuthorizationToken",
+      "ecr-public:GetAuthorizationToken"
+    ]
     effect    = "Allow"
     resources = ["*"]
   }
