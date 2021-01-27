@@ -63,6 +63,10 @@ resource "aws_iam_policy_attachment" "beanstalk_worker_tier_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWorkerTier"
   roles      = [aws_iam_role.beanstalk_ec2_role.id]
 }
+resource "aws_iam_instance_profile" "ec2" {
+  name = "eb-ec2-${var.stage}"
+  role = aws_iam_role.beanstalk_ec2_role.name
+}
 
 ######
 # Beanstalk service role
