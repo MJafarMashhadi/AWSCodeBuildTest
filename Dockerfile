@@ -1,4 +1,4 @@
-FROM python:3.8-slim 
+FROM bitnami/python:3.8
 
 COPY ci/install_requirements.sh /install_requirements
 RUN chmod +x /install_requirements
