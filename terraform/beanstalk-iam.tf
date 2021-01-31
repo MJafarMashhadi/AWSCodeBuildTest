@@ -1,32 +1,6 @@
 ######
 # Beanstalk EC2 role
 ######
-data "aws_iam_policy_document" "ecr_readonly_policy" {
-  statement {
-    sid = "AllowPull"
-    actions = [
-      "ecr:GetAuthorizationToken",
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:GetRepositoryPolicy",
-      "ecr:DescribeRepositories",
-      "ecr:ListImages",
-      "ecr:BatchGetImage",
-    ]
-    effect    = "Allow"
-    resources = [aws_ecr_repository.dumpster_repo.arn, ]
-  }
-  statement {
-    sid       = "AllowEbAuth"
-    actions   = ["ecr:GetAuthorizationToken"]
-    effect    = "Allow"
-    resources = ["*"]
-  }
-}
-resource "aws_iam_policy" "ecr_readonly_policy" {
-  name   = "ecr-readonly-policy"
-  policy = data.aws_iam_policy_document.ecr_readonly_policy.json
-}
 data "aws_iam_policy_document" "beanstalk_ec2_role_assume_role_policy" {
   statement {
     effect  = "Allow"
@@ -40,7 +14,7 @@ data "aws_iam_policy_document" "beanstalk_ec2_role_assume_role_policy" {
 resource "aws_iam_role" "beanstalk_ec2_role" {
   assume_role_policy = data.aws_iam_policy_document.beanstalk_ec2_role_assume_role_policy.json
   name               = "beanstalk-sa-ec2-role-${var.stage}"
-  path               = "/"
+  path               = "/service-role/"
 }
 
 resource "aws_iam_policy_attachment" "ecr_readonly_policy_attachment" {
@@ -89,7 +63,7 @@ data "aws_iam_policy_document" "beanstalk_service_role_assume_role_policy" {
 resource "aws_iam_role" "beanstalk_service_role" {
   assume_role_policy = data.aws_iam_policy_document.beanstalk_service_role_assume_role_policy.json
   name               = "beanstalk-sa-service-role-${var.stage}"
-  path               = "/service-role/" # TODO: change to / if any problems arise
+  path               = "/service-role/"
 }
 resource "aws_iam_policy_attachment" "beanstalk_enhanced_health_policy_attachment" {
   name       = "beanstalk-enhanced-health-policy-attachment-${var.stage}"

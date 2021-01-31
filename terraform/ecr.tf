@@ -6,3 +6,33 @@ resource "aws_ecr_repository" "dumpster_repo" {
     scan_on_push = false
   }
 }
+
+#####
+# IAM policies
+#####
+data "aws_iam_policy_document" "ecr_readonly_policy" {
+  statement {
+    sid = "AllowPull"
+    actions = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:GetRepositoryPolicy",
+      "ecr:DescribeRepositories",
+      "ecr:ListImages",
+      "ecr:BatchGetImage",
+    ]
+    effect    = "Allow"
+    resources = [aws_ecr_repository.dumpster_repo.arn, ]
+  }
+  statement {
+    sid       = "AllowEbAuth"
+    actions   = ["ecr:GetAuthorizationToken"]
+    effect    = "Allow"
+    resources = ["*"]
+  }
+}
+resource "aws_iam_policy" "ecr_readonly_policy" {
+  name   = "ecr-readonly-policy"
+  policy = data.aws_iam_policy_document.ecr_readonly_policy.json
+}
