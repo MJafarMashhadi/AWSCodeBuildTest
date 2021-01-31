@@ -1,7 +1,7 @@
 ######
 # Beanstalk EC2 role
 ######
-data "aws_iam_policy_document" "beanstalk_role_policy" {
+data "aws_iam_policy_document" "ecr_readonly_policy" {
   statement {
     sid = "AllowPull"
     actions = [
@@ -23,9 +23,9 @@ data "aws_iam_policy_document" "beanstalk_role_policy" {
     resources = ["*"]
   }
 }
-resource "aws_iam_policy" "beanstalk_role_policy" {
-  name   = "beanstalk-role-policy-${var.stage}"
-  policy = data.aws_iam_policy_document.beanstalk_role_policy.json
+resource "aws_iam_policy" "ecr_readonly_policy" {
+  name   = "ecr-readonly-policy"
+  policy = data.aws_iam_policy_document.ecr_readonly_policy.json
 }
 data "aws_iam_policy_document" "beanstalk_ec2_role_assume_role_policy" {
   statement {
@@ -43,9 +43,9 @@ resource "aws_iam_role" "beanstalk_ec2_role" {
   path               = "/"
 }
 
-resource "aws_iam_policy_attachment" "beanstalk_role_policy_attachment" {
-  name       = "beanstalk-role-policy-attachment-${var.stage}"
-  policy_arn = aws_iam_policy.beanstalk_role_policy.arn
+resource "aws_iam_policy_attachment" "ecr_readonly_policy_attachment" {
+  name       = "ecr-readonly-policy-attachment-${var.stage}"
+  policy_arn = aws_iam_policy.ecr_readonly_policy.arn
   roles      = [aws_iam_role.beanstalk_ec2_role.id]
 }
 resource "aws_iam_policy_attachment" "beanstalk_web_tier_policy_attachment" {
