@@ -21,6 +21,12 @@ data "aws_iam_policy_document" "ecr_readonly_policy" {
       "ecr:DescribeRepositories",
       "ecr:ListImages",
       "ecr:BatchGetImage",
+      "ecr:GetRepositoryPolicy",
+      "ecr:DescribeImages",
+      "ecr:GetLifecyclePolicy",
+      "ecr:GetLifecyclePolicyPreview",
+      "ecr:ListTagsForResource",
+      "ecr:DescribeImageScanFindings",
     ]
     effect    = "Allow"
     resources = [aws_ecr_repository.dumpster_repo.arn, ]
