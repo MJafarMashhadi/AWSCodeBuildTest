@@ -127,7 +127,7 @@ data "aws_iam_policy_document" "codepipeline_service_role_policy" {
     ]
     resources = [
       "arn:aws:s3:::elasticbeanstalk*",
-//      aws_s3_bucket.codepipeline_bucket.arn
+      aws_s3_bucket.codepipeline_bucket.arn,
     ]
   }
 }
