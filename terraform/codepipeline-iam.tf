@@ -108,7 +108,7 @@ data "aws_iam_policy_document" "codepipeline_service_role_policy" {
       "elasticloadbalancing:*",
       "autoscaling:*",
       "cloudwatch:*",
-      "s3:*",
+//      "s3:*",
       "sns:*",
       "rds:*",
       "sqs:*",
@@ -125,7 +125,10 @@ data "aws_iam_policy_document" "codepipeline_service_role_policy" {
       "s3:PutObjectAcl",
       "s3:DeleteObject",
     ]
-    resources = ["arn:aws:s3:::elasticbeanstalk*", ]
+    resources = [
+      "arn:aws:s3:::elasticbeanstalk*",
+//      aws_s3_bucket.codepipeline_bucket.arn
+    ]
   }
 }
 resource "aws_iam_policy" "codepipeline_service_role_policy" {
