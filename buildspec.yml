@@ -14,3 +14,7 @@ phases:
     commands:
       - echo Build completed, $(date)
       - docker push $REPOSITORY_URI:latest
+artifacts:
+  files:
+    - docker-compose.yml
+  name: Compose file
