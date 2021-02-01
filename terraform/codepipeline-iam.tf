@@ -12,6 +12,7 @@ data "aws_iam_policy_document" "codepipeline_service_role_assume_role_policy" {
   }
 }
 data "aws_iam_policy_document" "codepipeline_service_role_policy" {
+  policy_id = "CodePipeline Service Role Policies"
   statement {
     sid = "PassRole"
     actions = [
@@ -95,24 +96,7 @@ data "aws_iam_policy_document" "codepipeline_service_role_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "appconfig:StartDeployment",
-      "appconfig:StopDeployment",
-      "appconfig:GetDeployment"
-    ]
-    resources = ["*"]
-  }
-  statement {
-    effect = "Allow"
-    actions = [
-      "ec2:*",
-      "elasticloadbalancing:*",
-      "autoscaling:*",
-      "cloudwatch:*",
 //      "s3:*",
-      "sns:*",
-      "rds:*",
-      "sqs:*",
-//      "ecs:*",
     ]
     resources = ["*"]
   }
@@ -127,7 +111,6 @@ data "aws_iam_policy_document" "codepipeline_service_role_policy" {
     ]
     resources = [
       "arn:aws:s3:::elasticbeanstalk*",
-      aws_s3_bucket.codepipeline_bucket.arn,
     ]
   }
 }
@@ -136,6 +119,7 @@ resource "aws_iam_policy" "codepipeline_service_role_policy" {
 }
 
 data "aws_iam_policy_document" "codepipeline_s3_policy" {
+  policy_id = "CodePipeline Manage S3"
   statement {
     sid    = "ManageS3Bucket"
     effect = "Allow"
