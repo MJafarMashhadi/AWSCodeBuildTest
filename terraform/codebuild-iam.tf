@@ -64,8 +64,11 @@ resource "aws_iam_role" "code_build_role" {
 }
 
 # Attaching permissions to the service role
-resource "aws_iam_policy_attachment" "code_build_role_policy_attachment" {
-  name       = "code-build-role-policy-attachment-${var.stage}"
+resource "aws_iam_role_policy_attachment" "code_build_role_policy_attachment" {
   policy_arn = aws_iam_policy.code_build_role_policy.arn
-  roles      = [aws_iam_role.code_build_role.id]
+  role       = aws_iam_role.code_build_role.id
+}
+resource "aws_iam_role_policy_attachment" "codebuild_s3_policy_attachment" {
+  policy_arn = aws_iam_policy.codepipeline_s3_policy.arn
+  role       = aws_iam_role.code_build_role.id
 }

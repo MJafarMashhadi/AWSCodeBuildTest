@@ -17,25 +17,25 @@ resource "aws_iam_role" "beanstalk_ec2_role" {
   path               = "/service-role/"
 }
 
-resource "aws_iam_policy_attachment" "ecr_readonly_policy_attachment" {
-  name       = "ecr-readonly-policy-attachment-${var.stage}"
+resource "aws_iam_role_policy_attachment" "ecr_ec2_readonly_policy_attachment" {
   policy_arn = aws_iam_policy.ecr_readonly_policy.arn
-  roles      = [aws_iam_role.beanstalk_ec2_role.id]
+  role       = aws_iam_role.beanstalk_ec2_role.id
 }
-resource "aws_iam_policy_attachment" "beanstalk_web_tier_policy_attachment" {
-  name       = "beanstalk-web-tier-policy-attachment-${var.stage}"
+resource "aws_iam_role_policy_attachment" "ecr_app_readonly_policy_attachment" {
+  policy_arn = aws_iam_policy.ecr_readonly_policy.arn
+  role       = aws_iam_role.beanstalk_app_service_role.id
+}
+resource "aws_iam_role_policy_attachment" "beanstalk_web_tier_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier"
-  roles      = [aws_iam_role.beanstalk_ec2_role.id]
+  role       = aws_iam_role.beanstalk_ec2_role.id
 }
-resource "aws_iam_policy_attachment" "beanstalk_mcdocker_policy_attachment" {
-  name       = "beanstalk-mcdocker-policy-attachment-${var.stage}"
+resource "aws_iam_role_policy_attachment" "beanstalk_mcdocker_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker"
-  roles      = [aws_iam_role.beanstalk_ec2_role.id]
+  role       = aws_iam_role.beanstalk_ec2_role.id
 }
-resource "aws_iam_policy_attachment" "beanstalk_worker_tier_policy_attachment" {
-  name       = "beanstalk-worker-tier-policy-attachment-${var.stage}"
+resource "aws_iam_role_policy_attachment" "beanstalk_worker_tier_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWorkerTier"
-  roles      = [aws_iam_role.beanstalk_ec2_role.id]
+  role       = aws_iam_role.beanstalk_ec2_role.id
 }
 resource "aws_iam_instance_profile" "ec2" {
   name = "eb-ec2-${var.stage}"
@@ -65,24 +65,11 @@ resource "aws_iam_role" "beanstalk_app_service_role" {
   name               = "beanstalk-app-sa-service-role"
   path               = "/service-role/"
 }
-resource "aws_iam_role" "beanstalk_env_service_role" {
-  assume_role_policy = data.aws_iam_policy_document.beanstalk_service_role_assume_role_policy.json
-  name               = "beanstalk-env-${var.stage}-sa-service-role"
-  path               = "/service-role/"
-}
-resource "aws_iam_policy_attachment" "beanstalk_enhanced_health_policy_attachment" {
-  name       = "beanstalk-enhanced-health-policy-attachment"
+resource "aws_iam_role_policy_attachment" "beanstalk_enhanced_health_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkEnhancedHealth"
-  roles      = [
-    aws_iam_role.beanstalk_app_service_role.id,
-    aws_iam_role.beanstalk_env_service_role.id,
-  ]
+  role       = aws_iam_role.beanstalk_app_service_role.id
 }
-resource "aws_iam_policy_attachment" "beanstalk_beanstalk_service_policy_attachment" {
-  name       = "beanstalk-beanstalk-service-policy-attachment"
+resource "aws_iam_role_policy_attachment" "beanstalk_beanstalk_service_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkService"
-  roles      = [
-    aws_iam_role.beanstalk_app_service_role.id,
-    aws_iam_role.beanstalk_env_service_role.id,
-  ]
+  role       = aws_iam_role.beanstalk_app_service_role.id
 }
