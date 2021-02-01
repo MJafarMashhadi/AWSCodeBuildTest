@@ -37,6 +37,15 @@ data "aws_iam_policy_document" "ecr_readonly_policy" {
     effect    = "Allow"
     resources = ["*"]
   }
+  statement {
+    sid = "AllowAuthenticationToPublicECRGallery"
+    actions = [
+      "ecr-public:GetAuthorizationToken",
+      "sts:GetServiceBearerToken"
+    ]
+    effect    = "Allow"
+    resources = ["*"]
+  }
 }
 resource "aws_iam_policy" "ecr_readonly_policy" {
   name   = "ecr-readonly-policy"
