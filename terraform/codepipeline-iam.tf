@@ -64,6 +64,11 @@ data "aws_iam_policy_document" "codepipeline_service_role_policy" {
 //      "arn:aws:elasticbeanstalk:${var.region}::platform/*",
       "*",
     ]
+    condition {
+      test = "StringEqualsIfExists"
+      values = [aws_elastic_beanstalk_application.beanstalk_app.arn]
+      variable = "elasticbeanstalk:InApplication"
+    }
   }
   statement {
     effect = "Allow"
