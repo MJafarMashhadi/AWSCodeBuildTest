@@ -60,18 +60,29 @@ data "aws_iam_policy_document" "beanstalk_service_role_assume_role_policy" {
     }
   }
 }
-resource "aws_iam_role" "beanstalk_service_role" {
+resource "aws_iam_role" "beanstalk_app_service_role" {
   assume_role_policy = data.aws_iam_policy_document.beanstalk_service_role_assume_role_policy.json
-  name               = "beanstalk-sa-service-role-${var.stage}"
+  name               = "beanstalk-app-sa-service-role"
+  path               = "/service-role/"
+}
+resource "aws_iam_role" "beanstalk_env_service_role" {
+  assume_role_policy = data.aws_iam_policy_document.beanstalk_service_role_assume_role_policy.json
+  name               = "beanstalk-env-${var.stage}-sa-service-role"
   path               = "/service-role/"
 }
 resource "aws_iam_policy_attachment" "beanstalk_enhanced_health_policy_attachment" {
-  name       = "beanstalk-enhanced-health-policy-attachment-${var.stage}"
+  name       = "beanstalk-enhanced-health-policy-attachment"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkEnhancedHealth"
-  roles      = [aws_iam_role.beanstalk_service_role.id]
+  roles      = [
+    aws_iam_role.beanstalk_app_service_role.id,
+    aws_iam_role.beanstalk_env_service_role.id,
+  ]
 }
 resource "aws_iam_policy_attachment" "beanstalk_beanstalk_service_policy_attachment" {
-  name       = "beanstalk-beanstalk-service-policy-attachment-${var.stage}"
+  name       = "beanstalk-beanstalk-service-policy-attachment"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkService"
-  roles      = [aws_iam_role.beanstalk_service_role.id]
+  roles      = [
+    aws_iam_role.beanstalk_app_service_role.id,
+    aws_iam_role.beanstalk_env_service_role.id,
+  ]
 }
