@@ -101,17 +101,12 @@ data "aws_iam_policy_document" "codepipeline_service_role_policy" {
   statement {
     effect = "Allow"
     actions = [
-//      "s3:*",
-    ]
-    resources = ["*"]
-  }
-  statement {
-    effect = "Allow"
-    actions = [
       "s3:ListBucket",
       "s3:GetBucketPolicy",
       "s3:GetObjectAcl",
+      "s3:GetObject",
       "s3:PutObjectAcl",
+      "s3:PutObject",
       "s3:DeleteObject",
     ]
     resources = [
